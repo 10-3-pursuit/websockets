@@ -1,10 +1,10 @@
 -- db/schema.sql
-DROP DATABASE IF EXISTS jwt_auth;
+DROP DATABASE IF EXISTS websocket_notifications;
 
-CREATE DATABASE jwt_auth;
+CREATE DATABASE websocket_notifications;
 
 
-\c jwt_auth
+\c websocket_notifications;
 
 
 CREATE TABLE users (
@@ -17,3 +17,14 @@ CREATE TABLE users (
 );
 
 
+
+CREATE TABLE reminders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    title VARCHAR(255),
+    detail TEXT,
+    reminder_time TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50)
+);
