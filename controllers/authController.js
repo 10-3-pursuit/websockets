@@ -5,6 +5,8 @@ const { findUserByUsername, createUser } = require("../queries/users");
 const { authenticateToken } = require("../middlewares/authenticateToken");
 const { scheduleReminders } = require("../schedules/schedule");
 
+//because we need to pass io to the /login and /register routes in order to run the schedule reminders, assign a function to module.exports. The function returns the auth router. So the users will still return a user object
+
 module.exports = (io) => {
   const auth = express.Router();
   // Login route
@@ -24,6 +26,7 @@ module.exports = (io) => {
       console.log("user", user);
       const token = generateToken(user);
 
+      // We need to schedule the reminders for the user when they login
       scheduleReminders(io, user.id);
 
       res.status(200).json({
@@ -59,7 +62,10 @@ module.exports = (io) => {
         passwordHash: hashedPassword,
         email,
       });
+
+      // We need to schedule the reminders for the user when they register
       scheduleReminders(io, newUser.id);
+
       const token = generateToken(newUser);
 
       if (token) {

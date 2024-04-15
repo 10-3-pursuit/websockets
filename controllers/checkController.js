@@ -1,10 +1,12 @@
 const express = require("express");
 
-const { generateToken } = require("../utils/token");
-const { findUserByUsername } = require("../queries/users");
 const { authenticateToken } = require("../middlewares/authenticateToken");
 
 const check = express.Router();
+
+// I had trouble getting the /check-auth and /user routes to run in the authController function so I created a separate controller calle check. You will have to change the routes on the frontend for the ProtectedRoute.jsx and the Navbar.jsx (see frontend code)
+
+// Remember to add this controller to your app.js
 
 check.get("/check-auth", authenticateToken, (req, res) => {
   // Assuming authenticateToken middleware adds user info to req.user
