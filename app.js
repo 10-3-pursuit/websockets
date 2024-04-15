@@ -5,7 +5,7 @@ const cron = require("node-cron");
 const cookieParser = require("cookie-parser");
 const { findAllReminders } = require("./queries/reminders");
 
-const authController = require("./controllers/authController");
+const checkController = require("./controllers/checkController");
 
 // CONFIGURATION
 const app = express();
@@ -27,7 +27,8 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authController);
+console.log("app in app.js");
+app.use("/api/check", checkController);
 
 // ROUTES
 app.get("/", (_req, res) => {

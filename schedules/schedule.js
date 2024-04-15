@@ -4,20 +4,17 @@ const { findReminders } = require("../queries/reminders");
 
 // Function to emit reminders to users
 
-const emitReminders = async (io) => {
-  const allReminders = await findReminders(1);
+const emitReminders = async (io, userId) => {
+  console.log("userid", userId);
+  const allReminders = await findReminders(userId);
   console.log("allReminders", allReminders);
 
   io.emit("remindersDue", allReminders);
 };
 
-const scheduleReminders = (io) => {
+const scheduleReminders = (io, userId) => {
   console.log("ran scheduleReminders");
-  schedule.scheduleJob("*/1 * * * *", () => emitReminders(io));
+  schedule.scheduleJob("*/1 * * * *", () => emitReminders(io, userId));
 };
 
-const scheduleCrypto = (io) => {
-  console.log("ran scheduleCrypto");
-  schedule.scheduleJob("*/1 * * * *", () => cryptoUpdaters(io));
-};
-module.exports = { scheduleReminders, scheduleCrypto };
+module.exports = { scheduleReminders };
